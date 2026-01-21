@@ -1,0 +1,362 @@
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Fraunces:opsz,wght@9..144,600&display=swap");
+
+:root {
+  --bg: #f7f7f7;
+  --bg-accent: #ffffff;
+  --ink: #1f1f1f;
+  --muted: #6b6b6b;
+  --ok: #1a8b5f;
+  --alert: #ff4d5a;
+  --warning: #ff8c42;
+  --card: #ffffff;
+  --shadow: rgba(25, 25, 25, 0.08);
+  --stroke: rgba(25, 25, 25, 0.08);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Space Grotesk", sans-serif;
+  color: var(--ink);
+  background: linear-gradient(180deg, #ffffff 0%, #f6f6f6 100%);
+  min-height: 100vh;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding: 18px 18px 84px;
+  gap: 18px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo {
+  font-family: "Fraunces", serif;
+  font-size: 24px;
+}
+
+.status-card,
+.card {
+  background: var(--card);
+  border-radius: 22px;
+  padding: 18px;
+  box-shadow: 0 10px 24px var(--shadow);
+  border: 1px solid var(--stroke);
+  display: grid;
+  gap: 12px;
+}
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 999px;
+  padding: 8px 14px;
+  font-weight: 600;
+  font-size: 16px;
+  background: rgba(255, 77, 90, 0.12);
+  color: var(--alert);
+}
+
+.status-pill.alert {
+  background: rgba(255, 77, 90, 0.2);
+  color: var(--alert);
+}
+
+.status-pill.warning {
+  background: rgba(255, 140, 66, 0.2);
+  color: var(--warning);
+}
+
+.big-button {
+  border: none;
+  border-radius: 20px;
+  padding: 14px 18px;
+  font-size: 17px;
+  font-weight: 700;
+  cursor: pointer;
+  width: 100%;
+  max-width: 340px;
+  transition: transform 0.15s ease, box-shadow 0.2s ease;
+  box-shadow: 0 8px 20px var(--shadow);
+}
+
+.big-button:active {
+  transform: translateY(1px);
+  box-shadow: 0 4px 10px var(--shadow);
+}
+
+.big-button.ok {
+  background: #17a168;
+  color: white;
+}
+
+.big-button.sos {
+  background: var(--alert);
+  color: white;
+}
+
+.grid,
+.stack {
+  display: grid;
+  gap: 16px;
+}
+
+.small-button {
+  background: var(--card);
+  border: 1px solid var(--stroke);
+  border-radius: 16px;
+  padding: 10px 14px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+  max-width: 340px;
+}
+
+.footer {
+  margin-top: auto;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+input, select {
+  font-size: 16px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid #e6e6e6;
+  width: 100%;
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(28, 28, 26, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.modal-card {
+  background: var(--card);
+  border-radius: 24px;
+  padding: 24px;
+  width: min(420px, 100%);
+  text-align: center;
+  display: grid;
+  gap: 16px;
+}
+
+.section-title {
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.primary-actions {
+  display: grid;
+  gap: 12px;
+  justify-items: center;
+}
+
+.secondary-actions {
+  display: grid;
+  gap: 10px;
+  justify-items: center;
+}
+
+.field {
+  display: grid;
+  gap: 6px;
+}
+
+.label {
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.two-col {
+  display: grid;
+  gap: 12px;
+}
+
+.nav {
+  position: fixed;
+  bottom: 16px;
+  left: 16px;
+  right: 16px;
+  display: grid;
+  grid-auto-flow: column;
+  gap: 6px;
+  background: var(--card);
+  padding: 8px;
+  border-radius: 18px;
+  border: 1px solid var(--stroke);
+  box-shadow: 0 10px 24px var(--shadow);
+}
+
+.nav-button {
+  border: 1px solid transparent;
+  background: transparent;
+  border-radius: 12px;
+  padding: 8px 10px;
+  font-weight: 600;
+  cursor: pointer;
+  color: var(--muted);
+}
+
+.nav-button.active {
+  background: rgba(255, 77, 90, 0.12);
+  color: var(--alert);
+  border-color: rgba(255, 77, 90, 0.3);
+}
+
+.logout {
+  border: 1px solid var(--stroke);
+  background: transparent;
+  border-radius: 12px;
+  padding: 6px 10px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.logo-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.measure-card {
+  display: grid;
+  gap: 14px;
+  align-items: center;
+  text-align: center;
+}
+
+.measure-title {
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.measure-subtitle {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.ring {
+  --progress: 0.65turn;
+  width: 230px;
+  height: 230px;
+  border-radius: 50%;
+  background:
+    conic-gradient(var(--alert) var(--progress), rgba(255, 77, 90, 0.15) 0turn),
+    radial-gradient(circle, #ffffff 64%, transparent 65%);
+  display: grid;
+  place-items: center;
+  margin: 0 auto;
+}
+
+.ring-inner {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #ff8f95 0%, #ff4d5a 60%);
+  display: grid;
+  place-items: center;
+  color: white;
+  box-shadow: 0 14px 26px rgba(255, 77, 90, 0.35);
+  animation: pulse var(--pulse-speed) ease-in-out infinite;
+}
+
+.bpm {
+  font-size: 42px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.bpm-label {
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+.pulse-line {
+  height: 80px;
+  border-radius: 16px;
+  background: linear-gradient(180deg, rgba(255, 77, 90, 0.08), rgba(255, 77, 90, 0));
+  position: relative;
+  overflow: hidden;
+}
+
+.pulse-line::after {
+  content: "";
+  position: absolute;
+  left: -20%;
+  top: 50%;
+  width: 140%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--alert), transparent);
+  animation: sweep 2.4s linear infinite;
+}
+
+.pulse-line svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.muted {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.96);
+  }
+  50% {
+    transform: scale(1.04);
+  }
+  100% {
+    transform: scale(0.96);
+  }
+}
+
+@keyframes sweep {
+  0% {
+    transform: translateX(-20%);
+  }
+  100% {
+    transform: translateX(20%);
+  }
+}
+
+@media (min-width: 768px) {
+  .app {
+    max-width: 520px;
+    margin: 0 auto;
+  }
+}
+
+@media (min-width: 520px) {
+  .primary-actions {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .two-col {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

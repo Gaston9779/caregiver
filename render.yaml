@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: caregiver-backend
+    env: python
+    plan: free
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: DATABASE_URL
+        value: postgresql+psycopg2://user:pass@host:5432/db
+      - key: JWT_SECRET
+        value: change-me
+
+  - type: static
+    name: caregiver-frontend
+    plan: free
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: VITE_API_URL
+        value: https://caregiver-backend.onrender.com
