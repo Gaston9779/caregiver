@@ -12,7 +12,7 @@ services:
       - key: JWT_SECRET
         value: change-me
 
-  - type: static
+  - type: static_site
     name: caregiver-frontend
     plan: free
     rootDir: frontend
