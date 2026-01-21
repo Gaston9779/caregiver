@@ -1,0 +1,28 @@
+{
+  "expo": {
+    "name": "Caregiver Safety",
+    "slug": "caregiver-safety",
+    "scheme": "caregiver",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "splash": {
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "Serve per monitorare l'uscita dalla zona sicura.",
+        "NSMotionUsageDescription": "Serve per rilevare possibili cadute."
+      }
+    },
+    "android": {
+      "permissions": [
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION",
+        "ACTIVITY_RECOGNITION"
+      ]
+    }
+  }
+}

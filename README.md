@@ -74,3 +74,17 @@ Nel prototipo, se le credenziali non sono presenti, le notifiche vengono loggate
 - Nessun uso di ML/AI, scraping o hardware dedicato.
 - Meglio un falso allarme che nessun allarme.
 - Copia legale obbligatoria sempre visibile in UI.
+
+## Mobile (Expo)
+Frontend mobile in `mobile/` con Expo, riusa lo stesso backend.
+
+### Avvio
+```bash
+cd mobile
+npm install
+EXPO_PUBLIC_API_URL=https://<backend-url> npm run start
+```
+
+### Note
+- HealthKit/Health Connect richiedono app native: questa versione usa sensori base e GPS.
+- Push: usa token Expo e registra su `/devices/register` (serve configurare FCM/APNs per invio reale).
