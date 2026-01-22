@@ -38,6 +38,7 @@ export default function App() {
   const [activeTab, setActiveTab] = useState("home");
   const [lastHeartbeatAt, setLastHeartbeatAt] = useState(Date.now());
   const [heartRate, setHeartRate] = useState(72);
+  const [manualBpm, setManualBpm] = useState("");
   const [authMode, setAuthMode] = useState("login");
   const [authForm, setAuthForm] = useState({
     email: "",
@@ -203,13 +204,13 @@ export default function App() {
           body: JSON.stringify(payload)
         });
       }
+      const formBody = `username=${encodeURIComponent(authForm.email)}&password=${encodeURIComponent(
+        authForm.password
+      )}`;
       const data = await request("/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: new URLSearchParams({
-          username: authForm.email,
-          password: authForm.password
-        })
+        body: formBody
       });
       await saveAuth(data.access_token, authForm.role);
       setToken(data.access_token);
@@ -226,10 +227,14 @@ export default function App() {
       return;
     }
     const pos = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.High });
+    if (!pos || !pos.coords || !Number.isFinite(pos.coords.latitude) || !Number.isFinite(pos.coords.longitude)) {
+      setError("Posizione non disponibile");
+      return;
+    }
     try {
       const payload = {
-        latitude: pos.coords.latitude,
-        longitude: pos.coords.longitude,
+        latitude: Number(pos.coords.latitude),
+        longitude: Number(pos.coords.longitude),
         radius_meters: 200
       };
       const zone = await request("/safe-zones", {
@@ -360,10 +365,10 @@ export default function App() {
         {role === "USER" ? (
           <View style={styles.cardCenter}>
             <View style={styles.heart}>
-              <Text style={styles.heartValue}>{heartRate}</Text>
+              <Text style={styles.heartValue}>{manualBpm ? manualBpm : heartRate}</Text>
               <Text style={styles.heartLabel}>bpm</Text>
             </View>
-            <Text style={styles.muted}>Battiti stimati</Text>
+            <Text style={styles.muted}>{manualBpm ? "Battiti manuali" : "Battiti stimati"}</Text>
           </View>
         ) : null}
 
@@ -406,8 +411,19 @@ export default function App() {
         {activeTab === "safety" && role === "USER" ? (
           <View style={styles.card}>
             <Text style={styles.sectionTitle}>Sicurezza</Text>
+            {safeZone ? (
+              <View style={styles.zoneBox}>
+                <Text style={styles.zoneTitle}>Zona sicura attiva</Text>
+                <Text style={styles.zoneValue}>
+                  {safeZone.latitude.toFixed(5)}, {safeZone.longitude.toFixed(5)}
+                </Text>
+                <Text style={styles.zoneValue}>Raggio: {safeZone.radius_meters} m</Text>
+              </View>
+            ) : null}
             <TouchableOpacity style={styles.buttonOutline} onPress={handleSetSafeZone}>
-              <Text style={styles.buttonOutlineText}>Imposta zona sicura</Text>
+              <Text style={styles.buttonOutlineText}>
+                {safeZone ? "Aggiorna zona sicura" : "Imposta zona sicura"}
+              </Text>
             </TouchableOpacity>
             <Text style={styles.label}>Email caregiver</Text>
             <TextInput style={styles.input} value={linkEmail} onChangeText={setLinkEmail} />
@@ -417,6 +433,14 @@ export default function App() {
             <TouchableOpacity style={styles.buttonOutline} onPress={() => sendAutoEvent("FALL")}>
               <Text style={styles.buttonOutlineText}>Simula caduta</Text>
             </TouchableOpacity>
+            <Text style={styles.label}>Battiti manuali (opzionale)</Text>
+            <TextInput
+              style={styles.input}
+              keyboardType="numeric"
+              placeholder="es. 72"
+              value={manualBpm}
+              onChangeText={(text) => setManualBpm(text.replace(/[^0-9]/g, ""))}
+            />
           </View>
         ) : null}
 
@@ -517,6 +541,21 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.08,
     shadowRadius: 10,
     elevation: 2
+  },
+  zoneBox: {
+    padding: 12,
+    borderRadius: 14,
+    backgroundColor: "#f8f8f8",
+    borderWidth: 1,
+    borderColor: "#e6e6e6",
+    marginTop: 8
+  },
+  zoneTitle: {
+    fontWeight: "700",
+    marginBottom: 4
+  },
+  zoneValue: {
+    color: "#444"
   },
   statusCard: {
     backgroundColor: "#fff",

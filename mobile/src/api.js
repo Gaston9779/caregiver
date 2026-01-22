@@ -3,6 +3,7 @@ const API_URL = process.env.EXPO_PUBLIC_API_URL || "http://localhost:8000";
 export async function request(path, options = {}) {
   const response = await fetch(`${API_URL}${path}`, {
     headers: {
+      Accept: "application/json",
       "Content-Type": "application/json",
       ...(options.headers || {})
     },
@@ -10,7 +11,11 @@ export async function request(path, options = {}) {
   });
   if (!response.ok) {
     const detail = await response.json().catch(() => ({}));
-    throw new Error(detail.detail || "Errore richiesta");
+    if (Array.isArray(detail.detail)) {
+      const message = detail.detail.map((item) => item.msg).join(", ");
+      throw new Error(`${response.status}: ${message}`);
+    }
+    throw new Error(detail.detail || `${response.status}: Errore richiesta`);
   }
   if (response.status === 204) {
     return null;
